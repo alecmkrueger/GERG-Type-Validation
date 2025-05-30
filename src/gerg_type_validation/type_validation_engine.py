@@ -1,87 +1,13 @@
 # type_validation_engine.py
-import re
 import inspect
 from pathlib import Path
-from typing import Any, Union, List, Type, Optional, TypeGuard, TypeVar, get_type_hints
+from typing import Any, Union, List, Type, Optional,TypeGuard, TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
 
-from src.exceptions import TypeAssertionError
-from src.validators import TypeValidator,RangeValidator,LengthValidator,PathValidator
-from src.utils import VariableNameExtractor
-from src.core import TypeValidationEngine
-
-
-
-class ValidationConfig:
-    """Configuration class for type validation behavior."""
-
-    def __init__(self,
-                 strict_mode: bool = True,
-                 auto_extract_names: bool = True,
-                 raise_on_failure: bool = True,
-                 custom_error_class: Type[Exception] = TypeAssertionError):
-        self.strict_mode = strict_mode
-        self.auto_extract_names = auto_extract_names
-        self.raise_on_failure = raise_on_failure
-        self.custom_error_class = custom_error_class
-
-
-class TypeValidationDecorator:
-    """Decorator class for function parameter type checking."""
-
-    def __init__(self, engine: Optional[TypeValidationEngine] = None):
-        self.engine = engine or TypeValidationEngine()
-
-    def type_checked(self, func):
-        """Decorator that validates function arguments against their type hints."""
-        signature = inspect.signature(func)
-        type_hints = get_type_hints(func)
-
-        def wrapper(*args, **kwargs):
-            bound_args = signature.bind(*args, **kwargs)
-            bound_args.apply_defaults()
-
-            for param_name, param_value in bound_args.arguments.items():
-                if param_name in type_hints:
-                    expected_type = type_hints[param_name]
-                    try:
-                        self.engine.assert_type(param_value, expected_type)
-                    except TypeAssertionError as e:
-                        # Replace the auto-detected name with the parameter name for clarity
-                        error_msg = str(e)
-                        if "'" in error_msg:
-                            # Replace the first quoted variable name with the parameter name
-                            error_msg = re.sub(r"'[^']*'", f"'{param_name}'", error_msg, count=1)
-                        raise TypeError(f"In call to {func.__name__}: {error_msg}")
-
-            return func(*args, **kwargs)
-
-        return wrapper
-
-# Context manager for temporary validation configuration
-class ValidationContext:
-    """Context manager for temporarily changing validation behavior."""
-
-    def __init__(self, engine: TypeValidationEngine, **config_overrides):
-        self.engine = engine
-        self.original_config = engine.config
-        self.config_overrides = config_overrides
-
-    def __enter__(self):
-        # Create new config with overrides
-        new_config = ValidationConfig(
-            strict_mode=self.config_overrides.get('strict_mode', self.original_config.strict_mode),
-            auto_extract_names=self.config_overrides.get('auto_extract_names', self.original_config.auto_extract_names),
-            raise_on_failure=self.config_overrides.get('raise_on_failure', self.original_config.raise_on_failure),
-            custom_error_class=self.config_overrides.get('custom_error_class', self.original_config.custom_error_class)
-        )
-        self.engine.config = new_config
-        return self.engine
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        # Restore original config
-        self.engine.config = self.original_config
+from gerg_type_validation.validation_config import ValidationConfig
+from gerg_type_validation.validators import TypeValidator,RangeValidator,LengthValidator,PathValidator
+from gerg_type_validation.variable_name_extractor import VariableNameExtractor
 
 class TypeValidationEngine:
     """Main engine for type validation operations."""

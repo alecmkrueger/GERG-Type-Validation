@@ -3,14 +3,28 @@ name = "gerg-type-validation"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Alec Krueger",email = "Alecmkrueger@tamu.edu"}
+    {name = "Alec Krueger", email = "Alecmkrueger@tamu.edu"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
 ]
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"

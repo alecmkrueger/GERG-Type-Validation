@@ -4,8 +4,7 @@ from pathlib import Path
 from typing import Any, Union, List, Type, Optional
 from abc import ABC, abstractmethod
 
-from src.core import ValidationConfig
-
+from gerg_type_validation.validation_config import ValidationConfig
 
 class BaseValidator(ABC):
     """Abstract base class for all validators."""

@@ -2,7 +2,7 @@
 
 from typing import Any,Type,TypeVar,TypeGuard,Optional
 
-from src.core import TypeValidationEngine
+from gerg_type_validation.type_validation_engine import TypeValidationEngine
 
 T = TypeVar('T')
 

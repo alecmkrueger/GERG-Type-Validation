@@ -1,7 +1,7 @@
 # schema_validator.py
 from typing import Any, Optional
 
-from src.core import TypeValidationEngine
+from gerg_type_validation.type_validation_engine import TypeValidationEngine
 
 
 # Schema validation for complex data structures

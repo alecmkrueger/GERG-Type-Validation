@@ -1,5 +1,6 @@
 # decorator.py
-from src.core import TypeValidationDecorator,TypeValidationEngine
+from gerg_type_validation.type_validation_engine import TypeValidationEngine
+from gerg_type_validation.type_validation_decorator import TypeValidationDecorator
 # Decorator instance for backward compatibility
 _default_decorator = TypeValidationDecorator(TypeValidationEngine())
 type_checked = _default_decorator.type_checked

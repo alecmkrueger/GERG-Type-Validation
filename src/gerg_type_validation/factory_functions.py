@@ -2,8 +2,9 @@
 
 from typing import Type
 
-from src.exceptions import TypeAssertionError
-from src.core import TypeValidationEngine,ValidationConfig
+from gerg_type_validation.exceptions import TypeAssertionError
+from gerg_type_validation.type_validation_engine import TypeValidationEngine
+from gerg_type_validation.validation_config import ValidationConfig
 
 # Factory functions for creating custom configurations
 def create_validation_engine(strict_mode: bool = True,

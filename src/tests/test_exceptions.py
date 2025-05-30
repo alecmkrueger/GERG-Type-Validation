@@ -2,8 +2,7 @@ import unittest
 import sys
 import os
 
-from src.exceptions import TypeAssertionError
-
+from gerg_type_validation.exceptions import TypeAssertionError
 
 class TestTypeAssertionError(unittest.TestCase):
     """Test cases for TypeAssertionError custom exception."""

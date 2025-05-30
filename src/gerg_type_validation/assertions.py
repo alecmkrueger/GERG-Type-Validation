@@ -2,7 +2,7 @@
 from pathlib import Path
 from typing import Any,Union,Type,List,Optional,TypeVar
 
-from src.core import TypeValidationEngine
+from gerg_type_validation.type_validation_engine import TypeValidationEngine
 
 T = TypeVar('T')
 
