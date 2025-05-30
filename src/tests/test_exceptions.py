@@ -1,6 +1,4 @@
 import unittest
-import sys
-import os
 
 from gerg_type_validation.exceptions import TypeAssertionError
 

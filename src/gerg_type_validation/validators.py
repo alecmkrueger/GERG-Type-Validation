@@ -1,7 +1,7 @@
 # validators.py
 
 from pathlib import Path
-from typing import Any, Union, List, Type, Optional
+from typing import Any, Union, Optional
 from abc import ABC, abstractmethod
 
 from gerg_type_validation.validation_config import ValidationConfig
