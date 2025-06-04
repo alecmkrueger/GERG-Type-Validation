@@ -1,13 +1,31 @@
 from gerg_type_validation import (assert_string_like,TypeAssertionError,create_lenient_engine,
                                   ValidationContext,schema_validator,SchemaValidator,ValidationPatterns,
-                                  BatchValidator,assert_sequence)
+                                  BatchValidator,assert_sequence,assert_type)
 
 if __name__ == "__main__":
-    # Example 1: Basic usage with default engine
+    # Example 1a: Basic usage with default engine
     try:
         name = "John Doe"
         validated_name = assert_string_like(name, min_len=1, max_len=50)
         print(f"Valid name: {validated_name}")
+    except TypeAssertionError as e:
+        print(f"Validation error: {e}")
+
+
+    # Example 1b: Baic usage with custom type
+    class Person:
+        name:str
+
+        def __init__(self,name) -> None:
+            self.name = name
+
+        def __str__(self) -> str:
+            return f"Person(name={self.name})"
+
+    try:
+        person = Person(name="John Doe")
+        validated_person = assert_type(person,expected_type=Person)
+        print(f"Valid person: {validated_person}")
     except TypeAssertionError as e:
         print(f"Validation error: {e}")
 
